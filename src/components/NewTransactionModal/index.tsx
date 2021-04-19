@@ -1,9 +1,10 @@
 import Modal from 'react-modal'
-import { Container, TransactionTypeContainer } from './styles';
+import { Container, TransactionTypeContainer, TypeBox } from './styles';
 import closeImg from '../../assets/x.svg';
 
 import incomeImg from '../../assets/entradas.svg';
 import outcomeImg from '../../assets/saidas.svg';
+import { useState } from 'react';
 
 interface NewTransactionModalProps {
 	isOpen: boolean;
@@ -13,6 +14,8 @@ interface NewTransactionModalProps {
 Modal.setAppElement('#root'); // Por questões de acessibilidade, dizemos ao Modal qual é o elemento principal da aplicação. Com isso, o elemento principal diz ao usuário que está com acessibilidade ligada que essa parte principal da aplicação não está acessível, pois o modal está aberto.
 
 export function NewTransactionModal({isOpen, onRequestClose}: NewTransactionModalProps) {
+	const [type, setType] = useState('deposit');
+
 	return(
 		<Modal
 				isOpen={isOpen}
@@ -42,15 +45,25 @@ export function NewTransactionModal({isOpen, onRequestClose}: NewTransactionModa
 				/>
 
 				<TransactionTypeContainer>
-					<button type="button">
+					<TypeBox 
+						type="button"
+						onClick={() => setType('deposit')}
+						isActive={type === 'deposit'}
+						activeColor="green"
+						>
 						<img src={incomeImg} alt="entrada"/>
 						<span>entrada</span>
-					</button>
+					</TypeBox>
 					
-					<button type="button">
+					<TypeBox
+						type="button"
+						onClick={() => setType('withdraw')}
+						isActive={type === 'withdraw'}
+						activeColor="red"
+					>
 						<img src={outcomeImg} alt="entrada"/>
 						<span>saída</span>
-					</button>
+					</TypeBox>
 
 				</TransactionTypeContainer>
 
